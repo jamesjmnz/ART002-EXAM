@@ -10,7 +10,10 @@ import { cn } from '@/lib/utils';
 
 function ChapterPrelude({ chapter }: { chapter: ExhibitChapter }) {
   return (
-    <section className="relative overflow-hidden border-y border-white/10 bg-[#070707]">
+    <section
+      id={chapter.id}
+      className="relative overflow-hidden border-y border-white/10 bg-[#070707] scroll-mt-32"
+    >
       <div className="museum-grid absolute inset-0 opacity-25" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(211,173,104,0.18),transparent_28%),radial-gradient(circle_at_82%_58%,rgba(109,146,196,0.16),transparent_30%)]" />
       <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-16 md:px-8 lg:grid-cols-12 lg:px-12 lg:py-24 xl:px-16">
@@ -44,7 +47,10 @@ function ArtworkFeature({
   const reverse = index % 2 === 1;
 
   return (
-    <article id={artwork.id} className="relative border-t border-white/10 bg-[#050505] lg:min-h-[155vh]">
+    <article
+      id={artwork.id}
+      className="relative border-t border-white/10 bg-[#050505] scroll-mt-32 lg:min-h-[155vh]"
+    >
       <div className="relative overflow-hidden lg:sticky lg:top-0 lg:min-h-screen">
         <div className="absolute inset-0">
           <Image
@@ -177,7 +183,10 @@ function ArtworkFeature({
 export default function ExhibitSection() {
   return (
     <section className="relative bg-[#050505] text-white">
-      <section className="relative overflow-hidden border-t border-white/10 bg-[#050505]">
+      <section
+        id="exhibit"
+        className="relative overflow-hidden border-t border-white/10 bg-[#050505] scroll-mt-32"
+      >
         <div className="museum-grid absolute inset-0 opacity-30" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(211,173,104,0.22),transparent_28%),radial-gradient(circle_at_82%_22%,rgba(109,146,196,0.16),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.04),transparent_45%)]" />
         <div className="relative mx-auto flex min-h-[88vh] max-w-7xl flex-col justify-end gap-16 px-4 py-16 md:px-8 lg:px-12 lg:py-20 xl:px-16">

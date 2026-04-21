@@ -1,45 +1,48 @@
+import { ArrowDownRight } from 'lucide-react';
+
 import InfiniteGallery from '@/components/InfiniteGallery';
 import ExhibitSection from '@/components/ExhibitSection';
+import MuseumNav from '@/components/MuseumNav';
 
 export default function Home() {
 	const sampleImages = [
-		{ src: '/1.webp', alt: 'Atmospheric gallery image 1' },
 		{
 			src: '/heritage/spoliarium.jpg',
 			alt: "Juan Luna's Spoliarium",
+			targetId: 'spoliarium',
 		},
-		{ src: '/2.webp', alt: 'Atmospheric gallery image 2' },
 		{
 			src: '/heritage/bustamante.jpg',
 			alt: "Felix Resurreccion Hidalgo's El Asesinato del Gobernador Bustamante",
+			targetId: 'bustamante',
 		},
-		{ src: '/3.webp', alt: 'Atmospheric gallery image 3' },
 		{
 			src: '/heritage/first-mass-in-limasawa.jpg',
 			alt: 'Carlos Botong Francisco’s The First Mass in Limasawa',
+			targetId: 'first-mass',
 		},
-		{ src: '/4.webp', alt: 'Atmospheric gallery image 4' },
 		{
 			src: '/heritage/i-believe-in-god.jpg',
 			alt: "Vicente Manansala's I Believe in God",
+			targetId: 'i-believe-in-god',
 		},
-		{ src: '/5.webp', alt: 'Atmospheric gallery image 5' },
 		{
 			src: '/heritage/dalagang-bukid.jpg',
 			alt: "Fernando Amorsolo's Dalagang Bukid",
+			targetId: 'dalagang-bukid',
 		},
-		{ src: '/6.webp', alt: 'Atmospheric gallery image 6' },
 		{
 			src: '/heritage/progress-of-medicine.jpg',
 			alt: 'Carlos Botong Francisco’s The Progress of Medicine in the Philippines',
+			targetId: 'progress-of-medicine',
 		},
-		{ src: '/7.webp', alt: 'Atmospheric gallery image 7' },
-		{ src: '/8.webp', alt: 'Atmospheric gallery image 8' },
 	];
 
 	return (
 		<main className="min-h-screen bg-[#050505] text-white">
-			<section className="relative h-screen">
+			<MuseumNav />
+
+			<section id="hero" className="relative h-screen scroll-mt-32">
 				<InfiniteGallery
 					images={sampleImages}
 					speed={1.2}
@@ -49,16 +52,22 @@ export default function Home() {
 					className="h-screen w-full rounded-lg overflow-hidden"
 				/>
 				<div className="pointer-events-none absolute inset-0 flex h-screen items-center justify-center px-3 text-center mix-blend-exclusion text-white">
-					<h1 className="font-serif text-4xl tracking-tight md:text-7xl">
-						<span className="italic">We remember;</span> therefore we become
-					</h1>
+					<div className="max-w-5xl">
+						<p className="museum-kicker mb-4">Philippine Art and Cultural Heritage</p>
+						<h1 className="font-serif text-4xl tracking-tight md:text-7xl">
+							<span className="italic">We remember;</span> therefore we become
+						</h1>
+					</div>
 				</div>
 
-				<div className="pointer-events-none absolute bottom-10 left-0 right-0 text-center font-mono text-[11px] font-semibold uppercase">
-					<p>Use mouse wheel, arrow keys, or touch to navigate</p>
-					<p className="opacity-60">
-						Auto-play resumes after 3 seconds of inactivity
-					</p>
+				<div className="pointer-events-none absolute bottom-10 left-0 right-0 flex justify-center px-3 pb-5">
+					<a
+						href="#exhibit"
+						className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/45 px-5 py-3 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-white shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-2xl transition hover:bg-white/16"
+					>
+						Enter Exhibit
+						<ArrowDownRight className="h-4 w-4" />
+					</a>
 				</div>
 			</section>
 

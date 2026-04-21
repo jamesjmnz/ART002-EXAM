@@ -6,7 +6,13 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
-type ImageItem = string | { src: string; alt?: string };
+type GalleryImage = {
+	src: string;
+	alt?: string;
+	targetId?: string;
+};
+
+type ImageItem = string | GalleryImage;
 
 interface FadeSettings {
 	/** Fade in range as percentage of depth range (0-1) */
@@ -72,6 +78,7 @@ type TextureImageDimensions = {
 const DEFAULT_DEPTH_RANGE = 50;
 const MAX_HORIZONTAL_OFFSET = 8;
 const MAX_VERTICAL_OFFSET = 8;
+const BASE_IMAGE_SIZE = 2.8;
 
 function hasTextureImageDimensions(
 	image: unknown
@@ -185,11 +192,13 @@ function ImagePlane({
 	position,
 	scale,
 	material,
+	onSelect,
 }: {
 	texture: THREE.Texture;
 	position: [number, number, number];
 	scale: [number, number, number];
 	material: THREE.ShaderMaterial;
+	onSelect?: () => void;
 }) {
 	const meshRef = useRef<THREE.Mesh>(null);
 	const [isHovered, setIsHovered] = useState(false);
@@ -214,6 +223,7 @@ function ImagePlane({
 			material={material}
 			onPointerEnter={() => setIsHovered(true)}
 			onPointerLeave={() => setIsHovered(false)}
+			onClick={onSelect}
 		>
 			<planeGeometry args={[1, 1, 32, 32]} />
 		</mesh>
@@ -238,11 +248,24 @@ function GalleryScene({
 	const [autoPlay, setAutoPlay] = useState(true);
 	const lastInteraction = useRef(Date.now());
 
+	const scrollToImageTarget = useCallback((targetId?: string) => {
+		if (!targetId) return;
+
+		const target = document.getElementById(targetId);
+		if (!target) return;
+
+		setAutoPlay(false);
+		lastInteraction.current = Date.now();
+		target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}, []);
+
 	// Normalize images to objects
 	const normalizedImages = useMemo(
 		() =>
 			images.map((img) =>
-				typeof img === 'string' ? { src: img, alt: '' } : img
+				typeof img === 'string'
+					? { src: img, alt: '', targetId: undefined }
+					: img
 			),
 		[images]
 	);
@@ -502,7 +525,9 @@ function GalleryScene({
 						? texture.image.width / texture.image.height
 						: 1;
 				const scale: [number, number, number] =
-					aspect > 1 ? [2 * aspect, 2, 1] : [2, 2 / aspect, 1];
+					aspect > 1
+						? [BASE_IMAGE_SIZE * aspect, BASE_IMAGE_SIZE, 1]
+						: [BASE_IMAGE_SIZE, BASE_IMAGE_SIZE / aspect, 1];
 
 				return (
 					<ImagePlane
@@ -511,6 +536,9 @@ function GalleryScene({
 						position={[plane.x, plane.y, worldZ]} // Position planes relative to camera center
 						scale={scale}
 						material={material}
+						onSelect={() =>
+							scrollToImageTarget(normalizedImages[plane.imageIndex]?.targetId)
+						}
 					/>
 				);
 			})}
@@ -535,12 +563,13 @@ function FallbackGallery({ images }: { images: ImageItem[] }) {
 			</p>
 			<div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
 				{normalizedImages.map((img, i) => (
-					<img
-						key={i}
-						src={img.src || '/placeholder.svg'}
-						alt={img.alt}
-						className="w-full h-32 object-cover rounded"
-					/>
+					<a key={i} href={img.targetId ? `#${img.targetId}` : undefined}>
+						<img
+							src={img.src || '/placeholder.svg'}
+							alt={img.alt}
+							className="w-full h-32 object-cover rounded"
+						/>
+					</a>
 				))}
 			</div>
 		</div>
