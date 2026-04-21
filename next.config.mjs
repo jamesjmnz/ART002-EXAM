@@ -1,9 +1,10 @@
-import { fileURLToPath } from 'node:url'
+const root = process.cwd()
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  outputFileTracingRoot: root,
   turbopack: {
-    root: fileURLToPath(new URL('./', import.meta.url)),
+    root,
   },
   images: {
     unoptimized: true,
