@@ -33,7 +33,7 @@ interface PhilippineArtExhibit {
 }
 
 export const philippineArtExhibit = {
-  title: 'Pagtanaw sa Bayan',
+  title: 'Pamana ng Bayan',
   subtitle: 'Power, memory, and becoming in Philippine art',
   introduction:
     'This curated sequence turns the site into a virtual museum passage, tracing how Philippine artists pictured colonial pressure, collective ritual, intimate faith, and modern civic imagination without disturbing the original immersive opening.',
